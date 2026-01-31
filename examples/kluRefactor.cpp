@@ -133,10 +133,12 @@ int main(int argc, char* argv[])
   {
     std::cout << "System " << i << ":\n";
 
+    int file_index = num_systems + 1 % num_systems;
+
     std::ostringstream matname;
     std::ostringstream rhsname;
-    matname << matrix_path_name << std::setfill('0') << std::setw(2) << i << "." << file_extension;
-    rhsname << rhs_path_name << std::setfill('0') << std::setw(2) << i << "." << file_extension;
+    matname << matrix_path_name << std::setfill('0') << std::setw(2) << file_index << "." << file_extension;
+    rhsname << rhs_path_name << std::setfill('0') << std::setw(2) << file_index << "." << file_extension;
     matrix_file_name_full = matname.str();
     rhs_file_name_full    = rhsname.str();
     std::ifstream mat_file(matrix_file_name_full);
@@ -178,7 +180,7 @@ int main(int argc, char* argv[])
       status = KLU->analyze();
       std::cout << "KLU analysis status: " << status << std::endl;
     }
-    if (i < 2)
+    if (i < 1)
     {
       status = KLU->factorize();
       std::cout << "KLU factorization status: " << status << std::endl;

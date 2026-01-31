@@ -43,6 +43,9 @@ if(RESOLVE_USE_KLU)
 
   endif(RESOLVE_USE_CUDA)
 
+  add_executable(testKluRefactorOrder.exe testKluRefactorOrder.cpp)
+  target_link_libraries(testKluRefactorOrder.exe PRIVATE ReSolve)
+
 endif(RESOLVE_USE_KLU)
 
 set(installable_executables "")
