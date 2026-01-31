@@ -102,7 +102,7 @@ int testKluRefactor(index_type                     num_systems,
     KLU->solve(vec_rhs, vec_x);
 
     helper.resetSystem(A, vec_rhs, vec_x);
-    residual_norms[i]    = helper.getNormRelativeResidual();
+    residual_norms[i] = helper.getNormRelativeResidual();
 
     // FGMRES.setup(A);
     // FGMRES.setupPreconditioner("LU", KLU);
@@ -140,13 +140,10 @@ int main(int argc, char* argv[])
   // permutations of num_systems indices
   std::vector<std::vector<index_type>> permutations = {
       {0, 1, 2, 3, 4},
-      {0, 3, 4, 1, 2},
-      {4, 3, 2, 1, 0},
-      {2, 0, 4, 1, 3},
-      {1, 3, 0, 4, 2},
-      {3, 4, 1, 0, 2},
-      {2, 3, 4, 1, 0},
-  };
+      {1, 0, 2, 3, 4},
+      {2, 0, 1, 3, 4},
+      {3, 0, 1, 2, 4},
+      {4, 0, 1, 2, 3}};
   double* residual_norms    = new double[num_systems];
   double* condition_numbers = new double[num_systems];
   int*    status            = new int[num_systems];
@@ -157,10 +154,10 @@ int main(int argc, char* argv[])
     testKluRefactor(num_systems, perm, matrix_path_name, rhs_path_name, file_extension, residual_norms, condition_numbers, status);
 
     // Print header
-    std::cout << std::setw(10) << "Order" << " | ";
-    for (auto i : perm)
+    std::cout << std::setw(10) << "System" << " | ";
+    for (int i = 0; i < num_systems; ++i)
     {
-      std::cout << std::setw(16) << ("System " + std::to_string(i));
+      std::cout << std::setw(16) << std::to_string(perm[i]) + (i == 0 ? " (fact.)" : "");
     }
     std::cout << std::endl;
 
